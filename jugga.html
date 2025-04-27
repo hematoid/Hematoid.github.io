@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo and Description</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      position: relative;
+      color: white;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .photo {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 0, 0, 0.7);
+      margin-bottom: 20px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .photo:hover {
+      transform: scale(1.05);
+      border-color: rgba(255, 0, 0, 1);
+    }
+
+    .description {
+      max-width: 600px;
+      font-size: 18px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="container">
+  <video class="photo" autoplay muted loop playsinline>
+  <source src="jugga.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+  <div class="description">
+    <h2>Jayden Beckford aka Jugga</h2>
+    <p>The creature you see above is Jayden beckford. Aka Jugga. He is a 17 year old turning 18 pedophile. He is currently pending investigation for the Sexual assault of a 13 year old girl. Begging a 11 and 10 year old for nudes and threatening to Rape girls. He lives at 15 codrington gardens Gravesend. </p>
+  </div>
+</div>
+
+<script>
+  // Matrix effect
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+
+  const drops = Array.from({length: columns}).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#FF0000";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 33);
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+</script>
+
+</body>
+</html
