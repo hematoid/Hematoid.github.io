@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo and Description</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      position: relative;
+      color: white;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .photo {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 0, 0, 0.7);
+      margin-bottom: 20px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .photo:hover {
+      transform: scale(1.05);
+      border-color: rgba(255, 0, 0, 1);
+    }
+
+    .description {
+      max-width: 600px;
+      font-size: 18px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="container">
+  <img class="photo" src="sj.jpg" alt="Stuart Lacey aka SJ">
+  <div class="description">
+    <h2>Stuart Lacey aka SJ</h2>
+    <p>The creature you see above is Stuart Lacey. Aka Bigz. He is a 22-year-old egotistical freak. For a long time we watched SJ. He admitted to having 13-year-olds added, telling girls "I'll wait until you 18," and beefing everyone. Now we're putting an end to this. Basic info for now
+Online name SJ
+Real name Stuart Lacey
+52 Rochdale Cres, Coalville LE67 4TG
+Or 56
+Mums name Kate Lacey
+katelacey88@gmail.com
+kate.lacey@hotmail.com
+katelacey19@hotmail.co.uk
+Dad's name Will lacey
+</p>
+  </div>
+</div>
+
+<script>
+  // Matrix effect
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  const fontSize = 16;
+  let columns = canvas.width / fontSize;
+
+  let drops = Array.from({length: columns}).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#FF0000";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 33);
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    columns = canvas.width / fontSize;
+    drops = Array.from({length: columns}).fill(1);
+  });
+</script>
+
+</body>
+</html>
